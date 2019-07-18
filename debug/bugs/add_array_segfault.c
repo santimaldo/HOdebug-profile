@@ -2,8 +2,8 @@
 
 int add_array(int *a, int *b, int n){
   int sum = 0;
-  int i = 0;
-  for (i = 0; i <= n + 1; i++) {
+  	int i = 0;
+  for (i = 0; i < n; i++) {
     sum += abs(a[i]);
     sum += abs(b[i]);
   };
@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
   for (i = 0; i < n; i++) {
     a[i] = i;
     b[i] = i;
-  }
+  }	
   sum = add_array(a, b, 3);
   printf("The addition is %d\n", sum);
   return 0;
