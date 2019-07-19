@@ -1,12 +1,12 @@
-**Profiling**
+##**Profiling**
 
   Comencé con el programa `1-loop-interch.f90`. En este programa recorre una matriz mediante un loop anidado de dos formas distintas.
 En primer lugar recorre primero las columnas y luego las filas, y en segundo lugar invierte el orden. Usando `time` y corriendo el programa compilando con las distintas optimizaciones obtengo los tiempos:
 
-  `-O0`: 3.20 s
-  `-O1`: 2.79 s
-  `-O2`: 2.91 s
-  `-O3`: 0.84 s
+  -O0: 3.55 s
+  -O1: 2.79 s
+  -O2: 2.91 s
+  -O3: 0.84 s
 
   Luego, para hacer el *profiling* use gprof. Para usarlo, compilé con los flags `-pg -O0`, siendo el -pg un flag que crea un archivo que permite el profile ('gmon.out'). cuando corro `gprof ./1-loop-interch.p90`, devuelve:
 
@@ -18,7 +18,7 @@ En primer lugar recorre primero las columnas y luego las filas, y en segundo lug
 ...
 ```
 
-  Para ver el tiempo linea-a-linea agrego un flag, `gprof ./1-loop-interch.p90`:
+  Esto me muestra una sola linea porque solo tengo el main. Si fueran funciones, me daria el tiempo que le lleva a cada funcion. Para ver el tiempo linea-a-linea debo compilar con el flag `-g` y agregar un flag `-l` a gprof, `gprof -l ./1-loop-interch.p90`:
 
   ```
   %   cumulative   self              self     total           
@@ -36,3 +36,18 @@ En primer lugar recorre primero las columnas y luego las filas, y en segundo lug
   0.29      3.52     0.01                             MAIN__ (1-loop-interch.f90:57 @ 40152b)
   0.00      3.52     0.00        1     0.00     0.00  MAIN__ (1-loop-interch.f90:1 @ 400b16)
 ```
+
+Notemos que las lineas que más tiempo consumen son la 58 (~80%) y la 38 (~11%). La 58 es la del loop que recorre primero las filas y la 38 es la que recorre primero las columnas.
+ 
+	El segundo programa, `2-gprof-ex.f90`, sí tiene funciones. Lo compilé con los flags `-O0 -pg`. Luego corrí el profiling sin flags, `gprof 2-gprof-ex.f90`:
+
+```
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 73.40      3.82     3.82 50000000     0.00     0.00  bad_assign_
+ 14.16      4.55     0.74 50000000     0.00     0.00  good_assign_
+ 12.52      5.20     0.65        1     0.65     5.20  MAIN__
+```
+
+  **ES MUY IMPORTANTE CORRER EL PROGRAMA ANTES DE HACER EL PROFILING!!!!!!!!!!!**
+
