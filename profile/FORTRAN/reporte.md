@@ -39,7 +39,7 @@ En primer lugar recorre primero las columnas y luego las filas, y en segundo lug
 
 Notemos que las lineas que más tiempo consumen son la 58 (~80%) y la 38 (~11%). La 58 es la del loop que recorre primero las filas y la 38 es la que recorre primero las columnas.
  
-	El segundo programa, `2-gprof-ex.f90`, sí tiene funciones. Lo compilé con los flags `-O0 -pg`. Luego corrí el profiling sin flags, `gprof 2-gprof-ex.f90`:
+  El segundo programa, `2-gprof-ex.f90`, sí tiene funciones. Lo compilé con los flags `-O0 -pg`. Luego corrí el profiling sin flags, `gprof 2-gprof-ex.f90`:
 
 ```
   %   cumulative   self              self     total           
